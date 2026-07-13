@@ -141,7 +141,8 @@
         // Fetch and display reviews
         async function fetchReviews() {
             try {
-                const response = await fetch(DB_ENDPOINT);
+                // We add a cache-buster query parameter (?nocache=...) to force pulling the newest data
+                const response = await fetch(`${DB_ENDPOINT}?nocache=${Date.now()}`);
                 if (response.ok) {
                     const data = await response.json();
                     renderReviews(data);
@@ -190,17 +191,20 @@
 
             let existing = [];
             try {
-                const getRes = await fetch(DB_ENDPOINT);
+                const getRes = await fetch(`${DB_ENDPOINT}?nocache=${Date.now()}`);
                 if (getRes.ok) existing = await getRes.json();
             } catch (err) {}
 
             existing.push(newPayload);
 
             try {
+                // We simplify the request to bypass strict browser CORS blocks on key-value writes
                 const putRes = await fetch(DB_ENDPOINT, {
                     method: "POST",
                     body: JSON.stringify(existing),
-                    headers: { "Content-Type": "application/json" }
+                    headers: { 
+                        "Content-Type": "text/plain" // Changing content-type to text/plain bypasses pre-flight CORS blocks
+                    }
                 });
 
                 if (putRes.ok) {
