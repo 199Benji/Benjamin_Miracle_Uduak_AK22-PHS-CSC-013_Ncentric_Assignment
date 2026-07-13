@@ -82,7 +82,7 @@
                         <span class="tag">CSS</span>
                     </div>
                 </div>
-                <a href="https://199benji.github.io/Benjamin_Miracle_Uduak_AK22-PHS-CSC-013_Ncentric_5_pages_website-/" class="btn-launch" target="_blank" class="btn-launch">Open</a>
+                <a href="https://199benji.github.io/Benjamin_Miracle_Uduak_AK22-PHS-CSC-013_Ncentric_5_pages_website-/" class="btn-launch" target="_blank">Open</a>
             </div>
         </div>
 
@@ -100,7 +100,6 @@
                         <span class="tag">HTML</span>
                         <span class="tag">CSS</span>
                         <span class="tag">JS</span>
-
                     </div>
                 </div>
                 <a href="https://199benji.github.io/Benjamin_Miracle_Uduak_AK22-PHS-CSC-013_retail_shop_website--/shop.html" class="btn-launch" target="_blank">Open</a>
@@ -111,20 +110,106 @@
     <!-- Basic Review Form Without Specific Names -->
     <div class="review-section">
         <h2>Project Review Form</h2>        
-        <form action="https://formspree.io/f/xrengzqv" method="POST">
+        <form id="reviewForm">
             <label>Review Titlee</label>
-            <input type="text" name="reviewer_identity" placeholder="..." required>
+            <input type="text" id="reviewer_identity" name="reviewer_identity" placeholder="..." required>
 
             <label>Review Notes & Comments</label>
-            <textarea name="review_comments" rows="5" placeholder="Comments here..." required></textarea>
+            <textarea id="review_comments" name="review_comments" rows="5" placeholder="Comments here..." required></textarea>
             
-            <button type="submit" class="btn-submit">Submit Review Log</button>
+            <button type="submit" class="btn-submit">Submit Review</button>
         </form>
+
+        <!-- Dynamic Reviews Board Output -->
+        <div id="commentsList" style="margin-top: 30px; display: flex; flex-direction: column; gap: 15px;"></div>
     </div>
 
     <footer>
-        &copy; 2026 Miracle Benjamin. Computer Science Department. Main Campus Node.
+        &copy; 2026 Miracle Benjamin. Computer Science Department. Main Campus.
     </footer>
 
+    <script>
+        const DB_ENDPOINT = "https://kvdb.io/MN9vjH6Xb8S8wD8K9pY2zQ/ncentric_reviews_v3";
+
+        // Fetch and display reviews
+        async function fetchReviews() {
+            try {
+                const response = await fetch(DB_ENDPOINT);
+                if (response.ok) {
+                    const data = await response.json();
+                    renderReviews(data);
+                } else {
+                    renderReviews([]);
+                }
+            } catch (err) {
+                renderReviews([]);
+            }
+        }
+
+        function renderReviews(items) {
+            const container = document.getElementById('commentsList');
+            container.innerHTML = "";
+            
+            if (!items || items.length === 0) {
+                return;
+            }
+
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.style.background = "#0f172a";
+                card.style.padding = "15px";
+                card.style.borderRadius = "8px";
+                card.style.border = "1px solid #334155";
+                card.style.textAlign = "left";
+                card.innerHTML = `
+                    <strong style="color: #3b82f6; display: block; font-size: 14px; margin-bottom: 5px;">${item.title}</strong>
+                    <p style="color: #cbd5e1; font-size: 14px; margin: 0; line-height: 1.4;">${item.text}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Post review
+        document.getElementById('reviewForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const titleField = document.getElementById('reviewer_identity');
+            const commentField = document.getElementById('review_comments');
+            
+            const newPayload = {
+                title: titleField.value,
+                text: commentField.value
+            };
+
+            let existing = [];
+            try {
+                const getRes = await fetch(DB_ENDPOINT);
+                if (getRes.ok) existing = await getRes.json();
+            } catch (err) {}
+
+            existing.push(newPayload);
+
+            try {
+                const putRes = await fetch(DB_ENDPOINT, {
+                    method: "POST",
+                    body: JSON.stringify(existing),
+                    headers: { "Content-Type": "application/json" }
+                });
+
+                if (putRes.ok) {
+                    renderReviews(existing);
+                    titleField.value = "";
+                    commentField.value = "";
+                } else {
+                    alert("Database write error. Stream interrupted.");
+                }
+            } catch (err) {
+                alert("Network timeout. Check client gateway connection.");
+            }
+        });
+
+        // Initialize display
+        fetchReviews();
+    </script>
 </body>
 </html>
