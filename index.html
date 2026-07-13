@@ -67,7 +67,6 @@
     </header>
 
     <div class="portal-container">
-        <!-- Card 1 -->
         <div class="project-card">
             <div class="card-preview">
                 <img src="image_1.png" alt="Portal Preview">
@@ -86,7 +85,6 @@
             </div>
         </div>
 
-        <!-- Card 2 -->
         <div class="project-card secondary">
             <div class="card-preview">
                 <img src="image_2.png" alt="CartDrop Preview">
@@ -107,7 +105,6 @@
         </div>
     </div>
 
-    <!-- Basic Review Form Without Specific Names -->
     <div class="review-section">
         <h2>Project Review Form</h2>        
         <form id="reviewForm">
@@ -120,14 +117,6 @@
             <button type="submit" class="btn-submit">Submit Review</button>
         </form>
 
-        <!-- Reviews
-
-
-
-
-
-
- Output -->
         <div id="commentsList" style="margin-top: 30px; display: flex; flex-direction: column; gap: 15px;"></div>
     </div>
 
@@ -136,16 +125,16 @@
     </footer>
 
     <script>
-        const DB_ENDPOINT = "https://kvdb.io/YMWDFkLEsANa9cvjDpQru7/ncentric_reviews_v3";
+        // Dedicated, zero-config endpoint bypasses CORS blocks cleanly on GitHub Pages
+        const PANTRY_URL = "https://getpantry.cloud/apiv1/pantry/076da2e9-4674-4b48-9c18-971c080b067d/basket/ncentric_reviews";
 
         // Fetch and display reviews
         async function fetchReviews() {
             try {
-                // We add a cache-buster query parameter (?nocache=...) to force pulling the newest data
-                const response = await fetch(`${DB_ENDPOINT}?nocache=${Date.now()}`);
+                const response = await fetch(PANTRY_URL);
                 if (response.ok) {
                     const data = await response.json();
-                    renderReviews(data);
+                    renderReviews(data.reviews || []);
                 } else {
                     renderReviews([]);
                 }
@@ -189,26 +178,26 @@
                 text: commentField.value
             };
 
-            let existing = [];
+            let existingReviews = [];
             try {
-                const getRes = await fetch(`${DB_ENDPOINT}?nocache=${Date.now()}`);
-                if (getRes.ok) existing = await getRes.json();
+                const getRes = await fetch(PANTRY_URL);
+                if (getRes.ok) {
+                    const data = await getRes.json();
+                    existingReviews = data.reviews || [];
+                }
             } catch (err) {}
 
-            existing.push(newPayload);
+            existingReviews.push(newPayload);
 
             try {
-                // We simplify the request to bypass strict browser CORS blocks on key-value writes
-                const putRes = await fetch(DB_ENDPOINT, {
+                const putRes = await fetch(PANTRY_URL, {
                     method: "POST",
-                    body: JSON.stringify(existing),
-                    headers: { 
-                        "Content-Type": "text/plain" // Changing content-type to text/plain bypasses pre-flight CORS blocks
-                    }
+                    body: JSON.stringify({ reviews: existingReviews }),
+                    headers: { "Content-Type": "application/json" }
                 });
 
                 if (putRes.ok) {
-                    renderReviews(existing);
+                    renderReviews(existingReviews);
                     titleField.value = "";
                     commentField.value = "";
                 } else {
