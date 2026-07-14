@@ -125,10 +125,11 @@
     </footer>
 
     <script>
-        // Dedicated, zero-config endpoint bypasses CORS blocks cleanly on GitHub Pages
-        const PANTRY_URL = "https://getpantry.cloud/apiv1/pantry/076da2e9-4674-4b48-9c18-971c080b067d/basket/ncentric_reviews";
+        // Dedicated, zero-config endpoints
+        const FORMSPREE_URL = "https://formspree.io/f/xrengzqv";
+        const PANTRY_URL = "https://getpantry.cloud/apiv1/pantry/6b02c878-24d6-4598-a051-db16b80bcd68/basket/ncentric_reviews";
 
-        // Fetch and display reviews
+        // Fetch and display reviews from Pantry database on page load
         async function fetchReviews() {
             try {
                 const response = await fetch(PANTRY_URL);
@@ -166,10 +167,14 @@
             });
         }
 
-        // Post review
+        // Handle dual-destination form submissions asynchronously
         document.getElementById('reviewForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            const submitButton = e.target.querySelector('button');
+            submitButton.textContent = "Submitting Review...";
+            submitButton.disabled = true;
+
             const titleField = document.getElementById('reviewer_identity');
             const commentField = document.getElementById('review_comments');
             
@@ -178,6 +183,23 @@
                 text: commentField.value
             };
 
+            // ---- Task 1: Silently dispatch email notification payload to Formspree ----
+            const formspreeData = new FormData();
+            formspreeData.append("Reviewer Title", newPayload.title);
+            formspreeData.append("Review Comments", newPayload.text);
+
+            try {
+                await fetch(FORMSPREE_URL, {
+                    method: "POST",
+                    body: formspreeData,
+                    headers: { 'Accept': 'application/json' }
+                });
+                console.log("Notification email routed successfully.");
+            } catch (err) {
+                console.error("Email delivery interface failed:", err);
+            }
+
+            // Append comments to cloud database array ----
             let existingReviews = [];
             try {
                 const getRes = await fetch(PANTRY_URL);
@@ -205,6 +227,9 @@
                 }
             } catch (err) {
                 alert("Network timeout. Check client gateway connection.");
+            } finally {
+                submitButton.textContent = "Submit Review";
+                submitButton.disabled = false;
             }
         });
 
