@@ -3,238 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Miracle Benjamin | Coursework Portal</title>
+    <title>MiraDev | Coursework Portal & Home</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-        body { background: #0f172a; color: #f8fafc; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; }
+        body { background: #0f172a; color: #f8fafc; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; text-align: center; }
         
-        /* Dashboard Header */
-        header { background: radial-gradient(circle at top left, #1e293b, #0f172a); padding: 50px 20px; text-align: center; border-bottom: 1px solid #334155; }
-        .profile-badge { background: #2563eb; color: white; display: inline-block; padding: 6px 16px; border-radius: 20px; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
-        header h1 { font-size: 36px; font-weight: 800; color: #ffffff; margin-bottom: 10px; }
-        header h1 span { color: #3b82f6; }
-        header p { color: #94a3b8; font-size: 16px; max-width: 600px; margin: auto; }
+        /* Navigation Bar with Logo as Home Route */
+        nav { 
+            background: #1e293b; 
+            padding: 15px 30px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            border-bottom: 1px solid #334155; 
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-brand { display: flex; align-items: center; justify-content: space-between; }
+        .logo { color: #ffffff; font-size: 22px; font-weight: 800; text-decoration: none; display: inline-block; }
+        .logo span { color: #3b82f6; }
 
-        /* Project Cards Layout */
-        .portal-container { max-width: 1100px; width: 100%; margin: 40px auto; padding: 0 20px; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
-        .project-card { background: #1e293b; border: 1px solid #334155; border-radius: 20px; width: 45%; min-width: 320px; transition: transform 0.3s ease, border-color 0.3s ease; overflow: hidden; display: flex; flex-direction: column; }
-        .project-card:hover { transform: translateY(-5px); border-color: #3b82f6; }
-        
-        /* Direct Snapshot/Screenshot Container */
-        .card-preview { width: 100%; height: 200px; background: #0f172a; overflow: hidden; border-bottom: 1px solid #334155; }
-        .card-preview img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
-        .project-card:hover .card-preview img { transform: scale(1.03); }
-        
-        .card-content { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .card-meta { font-size: 11px; font-weight: bold; text-transform: uppercase; color: #3b82f6; letter-spacing: 1px; margin-bottom: 10px; }
-        .card-content h2 { font-size: 22px; color: #ffffff; font-weight: 700; margin-bottom: 10px; }
-        .card-content p { color: #94a3b8; font-size: 14px; line-height: 1.5; margin-bottom: 20px; }
-        
-        .tech-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 25px; }
-        .tag { background: #334155; color: #cbd5e1; font-size: 11px; padding: 4px 10px; border-radius: 6px; font-weight: 600; }
-        
-        .btn-launch { background: #2563eb; color: #ffffff; text-decoration: none; padding: 12px 20px; border-radius: 10px; font-weight: 700; font-size: 14px; text-align: center; display: block; transition: background 0.2s; }
-        .btn-launch:hover { background: #1d4ed8; }
-        .project-card.secondary .btn-launch { background: transparent; border: 2px solid #334155; color: #ffffff; }
-        .project-card.secondary .btn-launch:hover { background: #334155; }
+        .hamburger-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+        }
 
-        /* Integrated Review Panel */
-        .review-section { max-width: 700px; width: 90%; margin: 30px auto 60px auto; background: #1e293b; border: 1px solid #334155; padding: 35px; border-radius: 20px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2); }
-        .review-section h2 { font-size: 24px; font-weight: 800; color: #ffffff; margin-bottom: 8px; }
-        .review-section p { color: #94a3b8; font-size: 14px; margin-bottom: 25px; }
-        form { text-align: left; }
-        label { display: block; font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
-        input[type="text"], textarea { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: white; font-size: 14px; margin-bottom: 20px; }
-        input[type="text"]:focus, textarea:focus { border-color: #3b82f6; outline: none; }
-        .btn-submit { background: #10b981; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; font-size: 15px; transition: background 0.2s; }
+        .nav-links-container { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-left: 30px; }
+        .nav-links-left { display: flex; gap: 20px; align-items: center; }
+        .nav-links-left a { color: #94a3b8; text-decoration: none; font-weight: 600; font-size: 14px; transition: color 0.2s; }
+        .nav-links-left a:hover, .nav-links-left a.active { color: #ffffff; }
+
+        /* Highlighted Assignment 2 Button */
+        .btn-shop-highlight {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #ffffff !important;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700 !important;
+            font-size: 13px !important;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            white-space: nowrap;
+        }
+        .btn-shop-highlight:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4); }
+        .badge-asg { background: #ffffff; color: #b45309; font-size: 9px; padding: 2px 6px; border-radius: 10px; font-weight: 800; text-transform: uppercase; }
+
+        /* Student Dashboard Header */
+        .student-header { background: #0f172a; padding: 30px 20px 10px; border-bottom: 1px solid #1e293b; }
+        .profile-img { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 3px solid #3b82f6; margin-bottom: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .profile-badge { background: #2563eb; color: white; display: inline-block; padding: 5px 14px; border-radius: 20px; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        .student-header h2 { font-size: 24px; font-weight: 800; color: #ffffff; margin-bottom: 4px; }
+        .student-header h2 span { color: #3b82f6; }
+        .student-header p { color: #94a3b8; font-size: 13px; max-width: 600px; margin: auto; }
+
+        /* Hero Section */
+        .hero { background: radial-gradient(circle at top left, #1e293b, #0f172a); color: #ffffff; padding: 80px 20px; border-bottom: 1px solid #334155; }
+        .hero h1 { font-size: 42px; margin-bottom: 16px; font-weight: 800; letter-spacing: -1px; line-height: 1.2; }
+        .hero p { font-size: 18px; color: #94a3b8; max-width: 650px; margin: 0 auto 30px; line-height: 1.6; }
+        .btn-hero { background: #2563eb; color: #ffffff; padding: 12px 28px; text-decoration: none; border-radius: 8px; font-weight: 700; display: inline-block; transition: background 0.2s, transform 0.2s; font-size: 15px; }
+        .btn-hero:hover { background: #1d4ed8; transform: translateY(-2px); }
+
+        /* Feature Cards */
+        .features { max-width: 1100px; margin: 50px auto; padding: 0 20px; display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
+        .feat-card { background: #1e293b; padding: 30px; border-radius: 16px; border: 1px solid #334155; width: 48%; min-width: 280px; text-align: left; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: transform 0.3s ease, border-color 0.3s ease; }
+        .feat-card:hover { transform: translateY(-4px); border-color: #3b82f6; }
+        .feat-card h3 { margin-bottom: 12px; color: #ffffff; font-weight: 700; font-size: 20px; }
+        .feat-card p { color: #94a3b8; font-size: 14px; line-height: 1.6; }
+
+        /* Review Section */
+        .review-section { max-width: 750px; width: 90%; margin: 30px auto 60px auto; background: #1e293b; border: 1px solid #334155; padding: 30px; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); text-align: left; }
+        .review-section h2 { font-size: 22px; font-weight: 800; color: #ffffff; margin-bottom: 6px; text-align: center; }
+        .review-section p.subtext { color: #94a3b8; font-size: 13px; margin-bottom: 25px; text-align: center; }
+        label { display: block; font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.5px; }
+        input[type="text"], textarea { width: 100%; padding: 10px 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: white; font-size: 13px; margin-bottom: 15px; outline: none; }
+        input[type="text"]:focus, textarea:focus { border-color: #3b82f6; }
+        .btn-submit { background: #10b981; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; font-size: 14px; transition: background 0.2s; }
         .btn-submit:hover { background: #059669; }
 
-        footer { background: #0f172a; border-top: 1px solid #1e293b; color: #64748b; text-align: center; padding: 25px; font-size: 13px; }
+        /* Review Card Component with Date Stamp */
+        .review-card { background: #0f172a; padding: 14px; border-radius: 8px; border: 1px solid #334155; text-align: left; }
+        .review-card strong { color: #3b82f6; display: block; font-size: 13px; margin-bottom: 4px; }
+        .review-card p { color: #cbd5e1; font-size: 13px; margin: 0; line-height: 1.4; }
+        .review-card small { color: #64748b; font-size: 10px; display: block; margin-top: 6px; }
 
+        footer { background: #0f172a; border-top: 1px solid #1e293b; color: #64748b; text-align: center; padding: 25px; font-size: 12px; }
+
+        /* Responsive Mobile Layout */
         @media (max-width: 768px) {
-            header h1 { font-size: 28px; }
-            .portal-container { padding: 0 15px; margin: 20px auto; }
-            .project-card { width: 100%; }
-            .review-section { padding: 25px; }
+            nav { flex-direction: column; align-items: stretch; padding: 15px 20px; }
+            .nav-brand { display: flex; justify-content: space-between; width: 100%; }
+            .hamburger-btn { display: block; }
+            .nav-links-container { display: none; flex-direction: column; gap: 15px; padding-top: 15px; border-top: 1px solid #334155; margin-top: 12px; margin-left: 0; }
+            .nav-links-container.active { display: flex; }
+            .nav-links-left { flex-direction: column; align-items: flex-start; width: 100%; gap: 12px; }
+            .nav-links-left a { font-size: 15px; width: 100%; padding: 4px 0; text-align: left; }
+            .btn-shop-highlight { justify-content: center; width: 100%; }
+            
+            .hero { padding: 60px 15px; }
+            .hero h1 { font-size: 28px; }
+            .hero p { font-size: 15px; }
+            
+            .features { margin: 30px auto; gap: 20px; }
+            .feat-card { width: 100% !important; }
+            .review-section { padding: 20px; width: 95%; }
         }
     </style>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
-    <header>
-        <div class="profile-badge">NCENTRIC/ARTIFICIAL INTELLIGENT ASSIGNMENT</div>
-        <h1>BENJAMIN, MIRACLE UDUAK <span>-AK22/PHS/CSC/013</span></h1>
-    </header>
-
-    <div class="portal-container">
-        <div class="project-card">
-            <div class="card-preview">
-                <img src="image_1.png" alt="Portal Preview">
-            </div>
-            <div class="card-content">
-                <div>
-                    <div class="card-meta">Assignment 1 • Mini-Web </div>
-                    <h2>5 Pages Website</h2>
-                    <p>A small five pages website.</p>
-                    <div class="tech-tags">
-                        <span class="tag">HTML</span>
-                        <span class="tag">CSS</span>
-                    </div>
-                </div>
-                <a href="https://199benji.github.io/Benjamin_Miracle_Uduak_AK22-PHS-CSC-013_Ncentric_5_pages_website-/" class="btn-launch" target="_blank">Open</a>
-            </div>
+    <!-- Navigation Bar: MiraDev Logo acts as Home route -->
+    <nav>
+        <div class="nav-brand">
+            <a href="index.html" class="logo" title="Home">Mira<span>Dev</span></a>
+            <button class="hamburger-btn" id="menuToggle" aria-label="Toggle Navigation">☰</button>
         </div>
 
-        <div class="project-card secondary">
-            <div class="card-preview">
-                <img src="image_2.png" alt="CartDrop Preview">
+        <div class="nav-links-container" id="navContainer">
+            <div class="nav-links-left">
+                <a href="about.html">1. About Us</a>
+                <a href="services.html">2. Services</a>
+                <a href="gallery.html">3. Gallery</a>
+                <a href="contact.html">4. Contact Us</a>
             </div>
-            <div class="card-content">
-                <div>
-                    <div class="card-meta">Assignment 2 • Retail store for sales</div>
-                    <h2>Retail store for sales</h2>
-                    <p>A small website to be used by retails store.</p>
-                    <div class="tech-tags">
-                        <span class="tag">HTML</span>
-                        <span class="tag">CSS</span>
-                        <span class="tag">JS</span>
-                    </div>
-                </div>
-                <a href="https://199benji.github.io/Benjamin_Miracle_Uduak_AK22-PHS-CSC-013_retail_shop_website--/shop.html" class="btn-launch" target="_blank">Open</a>
-            </div>
+
+            <!-- Highlighted Assignment 2 Button -->
+            <a href="shop.html" class="btn-shop-highlight">
+                🛒 Retail Shop <span class="badge-asg">Assignment 2</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Student Credentials Header -->
+    <div class="student-header">
+        <img src="Passport.png" alt="Benjamin Miracle Uduak" class="profile-img" onerror="this.src='https://via.placeholder.com/110';">
+        <br>
+        <div class="profile-badge">NCENTRIC / ARTIFICIAL INTELLIGENCE ASSIGNMENT</div>
+        <h2>BENJAMIN, MIRACLE UDUAK <span>- AK22/PHS/CSC/013</span></h2>
+        <p>Department of Computer Science, Akwa Ibom State University, Main Campus</p>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Engineering Scalable Web Solutions</h1>
+        <p>High-performance full-stack architectures built with clean logic and industry-grade standards.</p>
+        <a href="services.html" class="btn-hero">View Architecture & Services</a>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features">
+        <div class="feat-card">
+            <h3>Robust Backends</h3>
+            <p>Developing secure, lightning-fast data parsing structures, relational schemas, cloud Firestore databases, and fully optimized APIs.</p>
+        </div>
+        <div class="feat-card">
+            <h3>Dynamic Frontends</h3>
+            <p>Constructing crisp, interactive, state-driven user interfaces using modern HTML5, CSS3, and JavaScript component lifecycles.</p>
         </div>
     </div>
 
+    <!-- Live Review Section -->
     <div class="review-section">
-        <h2>Project Review Form</h2>        
-        <form id="reviewForm">
-            <label>Review Title</label>
-            <input type="text" id="reviewer_identity" name="reviewer_identity" placeholder="..." required>
+        <h2>Review</h2> 
+        <p class="subtext">Submit review comments below.</p>
+        
+        <form id="reviewForm" action="https://formspree.io/f/xrengzqv" method="POST">
+            <label for="reviewer_identity">Reviewer Title</label>
+            <input type="text" id="reviewer_identity" name="Reviewer Title" placeholder="e.g. Course Lecturer / Assessor" required>
 
-            <label>Review Notes & Comments</label>
-            <textarea id="review_comments" name="review_comments" rows="5" placeholder="Comments here..." required></textarea>
+            <label for="review_comments">Review Comments</label>
+            <textarea id="review_comments" name="Review Comments" rows="3" placeholder="Enter feedback notes..." required></textarea>
             
-            <button type="submit" class="btn-submit">Submit Review</button>
+            <button type="submit" id="submitBtn" class="btn-submit">Submit Assessment</button>
         </form>
 
-        <div id="commentsList" style="margin-top: 30px; display: flex; flex-direction: column; gap: 15px;"></div>
+        <h3 style="margin-top: 30px; font-size: 16px; color: #ffffff; text-align: center;">Logged Database Reviews (Live Feed)</h3>
+        <div id="commentsList" style="margin-top: 12px; display: flex; flex-direction: column; gap: 10px;">
+            <p style="color: #94a3b8; font-size: 13px; text-align: center;">Connecting to Firebase database...</p>
+        </div>
     </div>
 
     <footer>
-        &copy; 2026 Miracle Benjamin. Computer Science Department. Main Campus.
+        &copy; 2026 Miracle Uduak Benjamin (AK22/PHS/CSC/013). Department of Computer Science, Akwa Ibom State University.
     </footer>
 
     <script>
-        // Dedicated, zero-config endpoints
-        const FORMSPREE_URL = "https://formspree.io/f/xrengzqv";
-        const PANTRY_URL = "https://getpantry.cloud/apiv1/pantry/6b02c878-24d6-4598-a051-db16b80bcd68/basket/ncentric_reviews";
+        // 1. Firebase Project Credentials
+        const firebaseConfig = {
+            apiKey: "AIzaSyBfJ-XqJAB7TaxZ5UplezyWcoeCcu0L1J0",
+            authDomain: "zestmarket-portfolio.firebaseapp.com",
+            projectId: "zestmarket-portfolio",
+            storageBucket: "zestmarket-portfolio.appspot.com",
+            messagingSenderId: "1028308821901",
+            appId: "1:1028308821901:web:e2b00f8983995f70a1a361"
+        };
 
-        // Fetch and display reviews from Pantry database on page load
-        async function fetchReviews() {
-            try {
-                const response = await fetch(PANTRY_URL);
-                if (response.ok) {
-                    const data = await response.json();
-                    renderReviews(data.reviews || []);
-                } else {
-                    renderReviews([]);
-                }
-            } catch (err) {
-                renderReviews([]);
-            }
-        }
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-        function renderReviews(items) {
-            const container = document.getElementById('commentsList');
-            container.innerHTML = "";
-            
-            if (!items || items.length === 0) {
-                return;
-            }
+        // 2. Mobile Navigation Toggle Script
+        const menuToggle = document.getElementById('menuToggle');
+        const navContainer = document.getElementById('navContainer');
 
-            items.forEach(item => {
-                const card = document.createElement('div');
-                card.style.background = "#0f172a";
-                card.style.padding = "15px";
-                card.style.borderRadius = "8px";
-                card.style.border = "1px solid #334155";
-                card.style.textAlign = "left";
-                card.innerHTML = `
-                    <strong style="color: #3b82f6; display: block; font-size: 14px; margin-bottom: 5px;">${item.title}</strong>
-                    <p style="color: #cbd5e1; font-size: 14px; margin: 0; line-height: 1.4;">${item.text}</p>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        // Handle dual-destination form submissions asynchronously
-        document.getElementById('reviewForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const submitButton = e.target.querySelector('button');
-            submitButton.textContent = "Submitting Review...";
-            submitButton.disabled = true;
-
-            const titleField = document.getElementById('reviewer_identity');
-            const commentField = document.getElementById('review_comments');
-            
-            const newPayload = {
-                title: titleField.value,
-                text: commentField.value
-            };
-
-            // ---- Task 1: Silently dispatch email notification payload to Formspree ----
-            const formspreeData = new FormData();
-            formspreeData.append("Reviewer Title", newPayload.title);
-            formspreeData.append("Review Comments", newPayload.text);
-
-            try {
-                await fetch(FORMSPREE_URL, {
-                    method: "POST",
-                    body: formspreeData,
-                    headers: { 'Accept': 'application/json' }
-                });
-                console.log("Notification email routed successfully.");
-            } catch (err) {
-                console.error("Email delivery interface failed:", err);
-            }
-
-            // Append comments to cloud database array ----
-            let existingReviews = [];
-            try {
-                const getRes = await fetch(PANTRY_URL);
-                if (getRes.ok) {
-                    const data = await getRes.json();
-                    existingReviews = data.reviews || [];
-                }
-            } catch (err) {}
-
-            existingReviews.push(newPayload);
-
-            try {
-                const putRes = await fetch(PANTRY_URL, {
-                    method: "POST",
-                    body: JSON.stringify({ reviews: existingReviews }),
-                    headers: { "Content-Type": "application/json" }
-                });
-
-                if (putRes.ok) {
-                    renderReviews(existingReviews);
-                    titleField.value = "";
-                    commentField.value = "";
-                } else {
-                    alert("Database write error. Stream interrupted.");
-                }
-            } catch (err) {
-                alert("Network timeout. Check client gateway connection.");
-            } finally {
-                submitButton.textContent = "Submit Review";
-                submitButton.disabled = false;
-            }
+        menuToggle.addEventListener('click', () => {
+            navContainer.classList.toggle('active');
+            menuToggle.textContent = navContainer.classList.contains('active') ? '✕' : '☰';
         });
 
-        // Initialize display
-        fetchReviews();
+        // 3. Realtime Stream: Reads reviews from Firebase & renders live with date stamp
+        const commentsList = document.getElementById('commentsList');
+
+        db.collection('reviews').orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
+            commentsList.innerHTML = '';
+            if (snapshot.empty) {
+                commentsList.innerHTML = '<p style="color: #94a3b8; font-size: 13px; text-align: center;">No review logs recorded yet.</p>';
+                return;
+            }
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+
+                // Safe fallbacks to prevent 'undefined' text
+                const titleText = data.title || data['Reviewer Title'] || 'Reviewer';
+                const commentText = data.comment || data.comments || data['Review Comments'] || '';
+                
+                // Formatted Timestamp Logic
+                let dateDisplay = 'Just now';
+                if (data.timestamp && typeof data.timestamp.toDate === 'function') {
+                    dateDisplay = new Date(data.timestamp.toDate()).toLocaleString();
+                }
+
+                const card = document.createElement('div');
+                card.className = 'review-card';
+                card.innerHTML = `
+                    <strong>${titleText}</strong>
+                    <p>${commentText}</p>
+                    <small>Logged: ${dateDisplay}</small>
+                `;
+                commentsList.appendChild(card);
+            });
+        }, (err) => {
+            console.error(err);
+            commentsList.innerHTML = '<p style="color: #ef4444; font-size: 13px; text-align: center;">Database stream connection offline.</p>';
+        });
+
+        // 4. Dual Form Submission (Firebase + Formspree)
+        document.getElementById('reviewForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.textContent = "Submitting...";
+
+            const title = document.getElementById('reviewer_identity').value.trim();
+            const comment = document.getElementById('review_comments').value.trim();
+
+            try {
+                // Save to Firebase Firestore under 'reviews'
+                await db.collection('reviews').add({
+                    title: title,
+                    comment: comment,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                // Dispatch to Formspree matching old column names
+                const formData = new FormData(this);
+                await fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                alert('Assessment recorded in Firebase and sent to Formspree!');
+                this.reset();
+            } catch (err) {
+                alert('Submission failed. Check network connection.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Submit Assessment";
+            }
+        });
     </script>
 </body>
 </html>

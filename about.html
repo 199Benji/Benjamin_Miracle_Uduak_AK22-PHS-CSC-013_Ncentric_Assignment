@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiraDev | About Developer</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+        body { background: #0f172a; color: #f8fafc; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; }
+        
+        nav { 
+            background: #1e293b; 
+            padding: 15px 30px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            border-bottom: 1px solid #334155; 
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-brand { display: flex; align-items: center; justify-content: space-between; }
+        .logo { color: #ffffff; font-size: 22px; font-weight: 800; text-decoration: none; display: inline-block; }
+        .logo span { color: #3b82f6; }
+
+        .hamburger-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .nav-links-container { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-left: 30px; }
+        .nav-links-left { display: flex; gap: 20px; align-items: center; }
+        .nav-links-left a { color: #94a3b8; text-decoration: none; font-weight: 600; font-size: 14px; transition: color 0.2s; }
+        .nav-links-left a:hover, .nav-links-left a.active { color: #ffffff; }
+
+        .btn-shop-highlight {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #ffffff !important;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700 !important;
+            font-size: 13px !important;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            white-space: nowrap;
+        }
+        .btn-shop-highlight:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4); }
+        .badge-asg { background: #ffffff; color: #b45309; font-size: 9px; padding: 2px 6px; border-radius: 10px; font-weight: 800; text-transform: uppercase; }
+
+        .main-content { max-width: 1000px; margin: 40px auto; padding: 0 20px; width: 100%; flex-grow: 1; }
+        .section-title { text-align: center; margin-bottom: 35px; font-size: 28px; color: #ffffff; font-weight: 800; }
+        
+        .about-flex-container { 
+            background: #1e293b; 
+            padding: 40px; 
+            border-radius: 16px; 
+            border: 1px solid #334155; 
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); 
+            display: flex; 
+            align-items: center; 
+            gap: 40px; 
+            margin-bottom: 40px; 
+        }
+
+        .profile-side { 
+            flex: 0 0 220px; 
+            text-align: center; 
+            border-right: 2px solid #334155; 
+            padding-right: 30px; 
+        }
+        .profile-img { 
+            width: 130px; 
+            height: 130px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            margin-bottom: 15px; 
+            border: 3px solid #3b82f6;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
+        }
+        .profile-name { font-size: 17px; font-weight: 800; color: #ffffff; margin-bottom: 5px; line-height: 1.3; }
+        .profile-reg { color: #3b82f6; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .bio-side { flex: 1; text-align: left; }
+        .bio-side h3 { font-size: 20px; color: #ffffff; font-weight: 700; margin-bottom: 12px; }
+        .bio-text { font-size: 14px; color: #94a3b8; line-height: 1.6; margin-bottom: 15px; }
+        .bio-text:last-child { margin-bottom: 0; }
+
+        footer { background: #0f172a; border-top: 1px solid #1e293b; color: #64748b; text-align: center; padding: 25px; font-size: 12px; }
+
+        @media (max-width: 768px) {
+            nav { flex-direction: column; align-items: stretch; padding: 15px 20px; }
+            .nav-brand { display: flex; justify-content: space-between; width: 100%; }
+            .hamburger-btn { display: block; }
+            .nav-links-container { display: none; flex-direction: column; gap: 15px; padding-top: 15px; border-top: 1px solid #334155; margin-top: 12px; margin-left: 0; }
+            .nav-links-container.active { display: flex; }
+            .nav-links-left { flex-direction: column; align-items: flex-start; width: 100%; gap: 12px; }
+            .nav-links-left a { font-size: 15px; width: 100%; padding: 4px 0; text-align: left; }
+            .btn-shop-highlight { justify-content: center; width: 100%; }
+
+            .section-title { font-size: 22px; }
+            
+            .about-flex-container { 
+                flex-direction: column; 
+                padding: 25px; 
+                gap: 25px; 
+                text-align: center; 
+            }
+            .profile-side { 
+                flex: auto; 
+                border-right: none; 
+                border-bottom: 2px solid #334155; 
+                padding-right: 0; 
+                padding-bottom: 20px; 
+                width: 100%; 
+            }
+            .bio-side { text-align: center; }
+            .bio-text { font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar: MiraDev Logo acts as Home route -->
+    <nav>
+        <div class="nav-brand">
+            <a href="index.html" class="logo" title="Home">Mira<span>Dev</span></a>
+            <button class="hamburger-btn" id="menuToggle" aria-label="Toggle Navigation">☰</button>
+        </div>
+
+        <div class="nav-links-container" id="navContainer">
+            <div class="nav-links-left">
+                <a href="about.html" class="active">1. About Us</a>
+                <a href="services.html">2. Services</a>
+                <a href="gallery.html">3. Gallery</a>
+                <a href="contact.html">4. Contact Us</a>
+            </div>
+
+            <a href="shop.html" class="btn-shop-highlight">
+                🛒 Retail Shop <span class="badge-asg">Assignment 2</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <h2 class="section-title">ABOUT US</h2>
+        
+        <div class="about-flex-container">
+            <div class="profile-side">
+                <img src="Passport.png" alt="Miracle Uduak Benjamin" class="profile-img" onerror="this.src='https://via.placeholder.com/130';">
+                <div class="profile-name">BENJAMIN, MIRACLE UDUAK</div>
+                <div class="profile-reg">AK22/PHS/CSC/013</div>
+            </div>
+
+            <div class="bio-side">
+                <h3>Full-Stack, Design & Machine Learning</h3>
+                <p class="bio-text">
+                    I am a final-year Computer Science student at Akwa Ibom State University, Main Campus. My technical domain bridges <strong>Full-Stack Web Development</strong>, <strong>Graphic & UI/UX Design</strong>, and <strong>Machine Learning Engineering</strong> into unified, production-ready solutions.
+                </p>
+                <p class="bio-text">
+                    From engineering scalable backend architectures with databases like PostgreSQL and Firebase, to designing striking visual brand identities and training predictive machine learning models, every project is structured for computational efficiency, visual excellence, and operational longevity.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Miracle Uduak Benjamin (AK22/PHS/CSC/013). Department of Computer Science, Akwa Ibom State University.
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const navContainer = document.getElementById('navContainer');
+
+        menuToggle.addEventListener('click', () => {
+            navContainer.classList.toggle('active');
+            menuToggle.textContent = navContainer.classList.contains('active') ? '✕' : '☰';
+        });
+    </script>
+
+</body>
+</html>

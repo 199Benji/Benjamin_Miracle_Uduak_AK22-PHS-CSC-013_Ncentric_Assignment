@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiraDev | Contact Us</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+        body { background: #0f172a; color: #f8fafc; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; }
+        
+        
+        nav { 
+            background: #1e293b; 
+            padding: 15px 30px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            border-bottom: 1px solid #334155; 
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .logo span { color: #3b82f6; }
+
+        .hamburger-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .nav-links-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-left: 30px;
+        }
+
+        .nav-links-left { display: flex; gap: 20px; align-items: center; }
+        .nav-links-left a { color: #94a3b8; text-decoration: none; font-weight: 600; font-size: 14px; transition: color 0.2s; }
+        .nav-links-left a:hover, .nav-links-left a.active { color: #ffffff; }
+
+        /* Highlighted Assignment 2 Button */
+        .btn-shop-highlight {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #ffffff !important;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700 !important;
+            font-size: 13px !important;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            white-space: nowrap;
+        }
+        .btn-shop-highlight:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
+        }
+        .badge-asg {
+            background: #ffffff;
+            color: #b45309;
+            font-size: 9px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .main-content { max-width: 800px; margin: 40px auto; padding: 0 20px; width: 100%; flex-grow: 1; }
+        .section-title { text-align: center; margin-bottom: 10px; font-size: 28px; color: #ffffff; font-weight: 800; }
+        .section-subtitle { text-align: center; color: #94a3b8; font-size: 14px; margin-bottom: 35px; }
+
+        .contact-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        label span.optional {
+            color: #64748b;
+            font-weight: normal;
+            text-transform: none;
+            margin-left: 4px;
+        }
+
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 12px 14px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
+            border-color: #3b82f6;
+        }
+
+        .btn-submit {
+            background: #2563eb;
+            color: #ffffff;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            font-size: 15px;
+            transition: background 0.2s;
+        }
+
+        .btn-submit:hover {
+            background: #1d4ed8;
+        }
+
+        footer { background: #0f172a; border-top: 1px solid #1e293b; color: #64748b; text-align: center; padding: 25px; font-size: 12px; margin-top: 40px; }
+
+        @media (max-width: 768px) {
+            nav { flex-direction: column; align-items: stretch; padding: 15px 20px; }
+            .nav-brand { display: flex; justify-content: space-between; width: 100%; }
+            .hamburger-btn { display: block; }
+            .nav-links-container { display: none; flex-direction: column; gap: 15px; padding-top: 15px; border-top: 1px solid #334155; margin-top: 12px; margin-left: 0; }
+            .nav-links-container.active { display: flex; }
+            .nav-links-left { flex-direction: column; align-items: flex-start; width: 100%; gap: 12px; }
+            .nav-links-left a { font-size: 15px; width: 100%; padding: 4px 0; text-align: left; }
+            .btn-shop-highlight { justify-content: center; width: 100%; }
+            .section-title { font-size: 22px; }
+            .contact-card { padding: 25px; }
+        }
+    </style>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+    <!-- Navigation Bar: MiraDev Logo acts as Home route -->
+    <nav>
+        <div class="nav-brand">
+            <a href="index.html" class="logo" title="Home">Mira<span>Dev</span></a>
+            <button class="hamburger-btn" id="menuToggle" aria-label="Toggle Navigation">☰</button>
+        </div>
+
+        <div class="nav-links-container" id="navContainer">
+            <div class="nav-links-left">
+                <a href="about.html">1. About Us</a>
+                <a href="services.html">2. Services</a>
+                <a href="gallery.html">3. Gallery</a>
+                <a href="contact.html" class="active">4. Contact Us</a>
+            </div>
+
+            <a href="shop.html" class="btn-shop-highlight">
+                🛒 Retail Shop <span class="badge-asg">Assignment 2</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <h2 class="section-title">GET IN TOUCH</h2>
+        <p class="section-subtitle">Send your inquiries or feedback. Messages are logged live into Firebase Database & sent via Formspree.</p>
+
+        <div class="contact-card">
+            <form id="contactForm" action="https://formspree.io/f/xrengzqv" method="POST">
+                <div class="form-group">
+                    <label for="reviewer_title">Reviewer Title</label>
+                    <input type="text" id="reviewer_title" name="Reviewer Title" placeholder="...." required>
+                </div>
+
+                <div class="form-group">
+                    <label for="sender_email">Email Address <span class="optional">(Optional)</span></label>
+                    <input type="email" id="sender_email" name="_replyto" placeholder="e.g. example@domain.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="review_comments">Review Comments / Message</label>
+                    <textarea id="review_comments" name="Review Comments" rows="5" placeholder="Type your message review here..." required></textarea>
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn-submit">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2026 Miracle Uduak Benjamin (AK22/PHS/CSC/013). Department of Computer Science, Akwa Ibom State University.
+    </footer>
+
+    <script>
+        // Firebase Setup
+        const firebaseConfig = {
+            apiKey: "AIzaSyBfJ-XqJAB7TaxZ5UplezyWcoeCcu0L1J0",
+            authDomain: "zestmarket-portfolio.firebaseapp.com",
+            projectId: "zestmarket-portfolio",
+            storageBucket: "zestmarket-portfolio.appspot.com",
+            messagingSenderId: "1028308821901",
+            appId: "1:1028308821901:web:e2b00f8983995f70a1a361"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Hamburger Menu Toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navContainer = document.getElementById('navContainer');
+
+        menuToggle.addEventListener('click', () => {
+            navContainer.classList.toggle('active');
+            menuToggle.textContent = navContainer.classList.contains('active') ? '✕' : '☰';
+        });
+
+        // Dual Submission: Firebase ('reviews' collection) + Formspree
+        const contactForm = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing...';
+
+            const title = document.getElementById('reviewer_title').value.trim();
+            const rawEmail = document.getElementById('sender_email').value.trim();
+            const email = rawEmail !== '' ? rawEmail : 'Not Provided';
+            const comments = document.getElementById('review_comments').value.trim();
+
+            try {
+                // 1. Save document into Firebase Firestore under 'reviews' collection
+                await db.collection('reviews').add({
+                    title: title,
+                    email: email,
+                    comment: comments,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                // 2. Post payload to Formspree
+                const formData = new FormData(contactForm);
+                if (!rawEmail) {
+                    formData.set('_replyto', 'Not Provided');
+                }
+                
+                await fetch(contactForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                alert('Message successfully logged in Database and sent via email!');
+                contactForm.reset();
+            } catch (error) {
+                console.error('Error recording message:', error);
+                alert('Submission failed. Please check your network connection.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }
+        });
+    </script>
+
+</body>
+</html>
